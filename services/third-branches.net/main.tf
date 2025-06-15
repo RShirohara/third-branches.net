@@ -38,6 +38,11 @@ resource "cloudflare_zone" "third_branches" {
   type = "full"
 }
 
+resource "cloudflare_zone_dnssec" "third_branches" {
+  zone_id = cloudflare_zone.third_branches.id
+  status = "active"
+}
+
 # Domain
 # Memo: Cannot Import
 
