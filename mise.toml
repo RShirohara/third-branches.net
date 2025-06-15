@@ -1,2 +1,5 @@
 [tools]
 "aqua:opentofu/opentofu" = "latest"
+
+[env]
+_.file = ".env.json"
