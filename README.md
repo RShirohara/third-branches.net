@@ -12,6 +12,7 @@ Service and deployment definitions for `third-branches.net`.
     - Permissions:
       - Account: Workers R2 Storage: Edit
       - User: API Tokens: Edit
+      - Zone: Bot Management: Edit
       - Zone: Zone: Edit
       - Zone: DNS: Edit
     - Account Resources:

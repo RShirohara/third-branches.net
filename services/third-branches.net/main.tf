@@ -43,6 +43,11 @@ resource "cloudflare_zone_dnssec" "third_branches" {
   status = "active"
 }
 
+resource "cloudflare_bot_management" "third_branches" {
+  zone_id = cloudflare_zone.third_branches.id
+  ai_bots_protection = "block"
+}
+
 # Domain
 # Memo: Cannot Import
 
