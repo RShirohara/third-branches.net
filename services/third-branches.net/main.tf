@@ -66,7 +66,7 @@ resource "cloudflare_dns_record" "protonmail_verify" {
   ttl = 1
   type = "TXT"
   zone_id = cloudflare_zone.third_branches.id
-  comment = "ProtonMail Custom Domain: Verification."
+  comment = "Proton Mail Custom Domain: Verification."
   content = "protonmail-verification=a0ae0f76af9c777ff0c4441923de4bbd3ca9282b"
 }
 
@@ -75,7 +75,7 @@ resource "cloudflare_dns_record" "protonmail_mx_mail" {
   ttl = 1
   type = "MX"
   zone_id = cloudflare_zone.third_branches.id
-  comment = "ProtonMail Custom Domain: MX Lookup."
+  comment = "Proton Mail Custom Domain: MX Lookup."
   content = "mail.protonmail.ch"
   priority = 10
 }
@@ -85,7 +85,7 @@ resource "cloudflare_dns_record" "protonmail_mx_mailsec" {
   ttl = 1
   type = "MX"
   zone_id = cloudflare_zone.third_branches.id
-  comment = "ProtonMail Custom Domain: MX Lookup."
+  comment = "Proton Mail Custom Domain: MX Lookup."
   content = "mailsec.protonmail.ch"
   priority = 20
 }
@@ -95,7 +95,7 @@ resource "cloudflare_dns_record" "protonmail_spf" {
   ttl = 1
   type = "TXT"
   zone_id = cloudflare_zone.third_branches.id
-  comment = "ProtonMail Custom Domain: SPF Record."
+  comment = "Proton Mail Custom Domain: SPF Record."
   content = "v=spf1 include:_spf.protonmail.ch ~all"
 }
 
@@ -104,7 +104,7 @@ resource "cloudflare_dns_record" "protonmail_dkim_first" {
   ttl = 1
   type = "CNAME"
   zone_id = cloudflare_zone.third_branches.id
-  comment = "ProtonMail Custom Domain: DKIM Signature."
+  comment = "Proton Mail Custom Domain: DKIM Signature."
   content = "protonmail.domainkey.dv3gi3gofnzhmybfv33o2wflbvqyibalykolo5jd43nbldary6k4a.domains.proton.ch"
 }
 
@@ -113,7 +113,7 @@ resource "cloudflare_dns_record" "protonmail_dkim_second" {
   ttl = 1
   type = "CNAME"
   zone_id = cloudflare_zone.third_branches.id
-  comment = "ProtonMail Custom Domain: DKIM Signature."
+  comment = "Proton Mail Custom Domain: DKIM Signature."
   content = "protonmail2.domainkey.dv3gi3gofnzhmybfv33o2wflbvqyibalykolo5jd43nbldary6k4a.domains.proton.ch"
 }
 
@@ -122,7 +122,7 @@ resource "cloudflare_dns_record" "protonmail_dkim_third" {
   ttl = 1
   type = "CNAME"
   zone_id = cloudflare_zone.third_branches.id
-  comment = "ProtonMail Custom Domain: DKIM Signature."
+  comment = "Proton Mail Custom Domain: DKIM Signature."
   content = "protonmail3.domainkey.dv3gi3gofnzhmybfv33o2wflbvqyibalykolo5jd43nbldary6k4a.domains.proton.ch"
 }
 
@@ -131,6 +131,6 @@ resource "cloudflare_dns_record" "protonmail_dmarc" {
   ttl = 1
   type = "TXT"
   zone_id = cloudflare_zone.third_branches.id
-  comment = "ProtonMail Custom Domain: DMARC policy."
+  comment = "Proton Mail Custom Domain: DMARC policy."
   content = "v=DMARC1; p=quarantine"
 }
