@@ -37,3 +37,16 @@ resource "cloudflare_zone" "third_branches" {
   name = "third-branches.net"
   type = "full"
 }
+
+# Domain
+# Memo: Cannot Import
+
+# DNS Record
+resource "cloudflare_dns_record" "keyoxide_dns_9C22B2503BDD9E049728C5432C773681151FDE8F" {
+  name = "third-branches.net"
+  ttl = 1
+  type = "TXT"
+  zone_id = cloudflare_zone.third_branches.id
+  comment = "OpenPGP Hashed Proof"
+  content = "$2a$11$hT9pZ2V2qPpZdmChREXSru6W2c0YjJphGTbFb8i/BGWe5MXEOFxZK"
+}
