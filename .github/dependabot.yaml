@@ -20,4 +20,5 @@ registries:
   terraform-opentofu:
     type: "terraform-registry"
     url: "https://registry.opentofu.org"
+    token: ""
     replaces-base: true
