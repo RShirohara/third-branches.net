@@ -5,6 +5,8 @@ updates:
   - package-ecosystem: "terraform"
     directories:
       - "/services/*"
+    registries:
+      - "terraform-opentofu"
     schedule:
       interval: "monthly"
       time: "03:00"
@@ -13,3 +15,9 @@ updates:
       - "Type: Dependencies"
     assignees:
       - "RShirohara"
+
+registries:
+  terraform-opentofu:
+    type: "terraform-registry"
+    url: "https://registry.opentofu.org"
+    replaces-base: true
