@@ -4,6 +4,8 @@ Service and deployment definitions for `third-branches.net`.
 
 ## Requirements
 
+- Amazon Web Service
+  - IAM Policy: `PowerUserAccess`
 - Cloudflare
   - Account ID (`cloudflare_account_id`)
   - API Token (`cloudflare_api_token`)
@@ -11,6 +13,7 @@ Service and deployment definitions for `third-branches.net`.
     - Template: "Create Additional Tokens"
     - Permissions:
       - Account: Workers R2 Storage: Edit
+      - Account: Cloudflare Tunnel: Edit
       - User: API Tokens: Edit
       - Zone: Bot Management: Edit
       - Zone: Zone: Edit
