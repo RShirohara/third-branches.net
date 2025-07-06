@@ -38,6 +38,52 @@ provider "cloudflare" {
 }
 
 # App Container
+resource "aws_lightsail_container_service" "gotosocial" {
+  name = "gotosocial-service"
+  power = "nano"
+  scale = 1
+  tags = {
+    service = "gotosocial"
+  }
+}
+
+resource "aws_lightsail_container_service_deployment_version" "gotosocial" {
+  service_name = aws_lightsail_container_service.gotosocial.name
+
+  container {
+    container_name = "app"
+    image = "superseriousbusiness/gotosocial:0.19.1"
+    environment = {
+      SERVICE_CON = "service://localhost"
+      TZ = "Asia/Tokyo"
+      GTS_HOST = cloudflare_dns_record.gotosocial.name
+      GTS_PORT = "8080"
+      GTS_DB_TYPE = "postgres"
+      GTS_DB_ADDRESS = aws_lightsail_database.gotosocial.master_endpoint_address
+      GTS_DB_USER = "gotosocial"
+      GTS_DB_PASSWORD = random_password.db_password.result
+      GTS_DB_DATABASE = "gotosocial"
+      GTS_DB_TLS_MODE = "enable"
+      GTS_ACCOUNTS_REGISTRATION_OPEN = "false"
+      GTS_STORAGE_BACKEND = "s3"
+      GTS_STORAGE_S3_ENDPOINT = "${var.cloudflare_account_id}.r2.cloudflarestorage.com"
+      GTS_STORAGE_S3_ACCESS_KEY = cloudflare_api_token.gotosocial_media.id
+      GTS_STORAGE_S3_SECRET_KEY = sha256(cloudflare_api_token.gotosocial_media.value)
+      GTS_STORAGE_S3_BUCKET = "gotosocial-media"
+      GTS_LETSENCRYPT_ENABLED = "false"
+      GTS_INSTANCE_INJECT_MASTODON_VERSION = "true"
+    }
+  }
+  container {
+    container_name = "tunnel"
+    image = "cloudflare/cloudflared:2025.7.0"
+    command = ["tunnel", "run"]
+    environment = {
+      SERVICE_CON = "service://localhost"
+      TUNNEL_TOKEN = data.cloudflare_zero_trust_tunnel_cloudflared_token.gotosocial.token
+    }
+  }
+}
 
 # DB Instance
 resource "aws_lightsail_database" "gotosocial" {
@@ -171,4 +217,9 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "gotosocial" {
 
 resource "random_id" "tunnel_secret" {
   byte_length = 35
+}
+
+data "cloudflare_zero_trust_tunnel_cloudflared_token" "gotosocial" {
+  account_id = var.cloudflare_account_id
+  tunnel_id = cloudflare_zero_trust_tunnel_cloudflared.gotosocial.id
 }
