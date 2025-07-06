@@ -42,7 +42,44 @@ provider "cloudflare" {
 # DB Instance
 
 # DNS Record
+resource "cloudflare_dns_record" "gotosocial" {
+  name = "ap.third-branches.net"
+  ttl = 1
+  type = "CNAME"
+  zone_id = var.cloudflare_zone_id
+  content = "${cloudflare_zero_trust_tunnel_cloudflared.gotosocial.id}.cfargotunnel.com"
+  proxied = true
+}
 
 # Media Bucket
 
 # Reverse Proxy
+resource "cloudflare_zero_trust_tunnel_cloudflared" "gotosocial" {
+  account_id = var.cloudflare_account_id
+  name = "gotosocial"
+  tunnel_secret = random_id.tunnel_secret.b64_std
+}
+
+resource "cloudflare_zero_trust_tunnel_cloudflared_config" "gotosocial" {
+  account_id = var.cloudflare_account_id
+  tunnel_id = cloudflare_zero_trust_tunnel_cloudflared.gotosocial.id
+  config = {
+    ingress = [
+      {
+        hostname = cloudflare_dns_record.gotosocial.name
+        service = "http://localhost:8080"
+      },
+      {
+        service = "http_status:404"
+      }
+    ]
+    warp_routing = {
+      enabled = false
+    }
+  }
+  source = "cloudflare"
+}
+
+resource "random_id" "tunnel_secret" {
+  byte_length = 35
+}
