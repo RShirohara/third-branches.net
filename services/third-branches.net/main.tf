@@ -46,6 +46,10 @@ resource "cloudflare_zone_dnssec" "third_branches" {
 resource "cloudflare_bot_management" "third_branches" {
   zone_id = cloudflare_zone.third_branches.id
   ai_bots_protection = "block"
+  crawler_protection = "disabled"
+  enable_js = false
+  fight_mode = false
+  suppress_session_score = false
 }
 
 # Domain
