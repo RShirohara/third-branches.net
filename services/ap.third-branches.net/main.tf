@@ -52,6 +52,64 @@ resource "cloudflare_dns_record" "gotosocial" {
 }
 
 # Media Bucket
+resource "cloudflare_r2_bucket" "gotosocial_media" {
+  account_id = var.cloudflare_account_id
+  name = "gotosocial-media"
+  location = "APAC"
+  storage_class = "Standard"
+}
+
+resource "cloudflare_api_token" "gotosocial_media" {
+  name = "gotosocial-media"
+  policies = [
+    {
+      effect = "allow"
+      permission_groups = [
+        {
+          id = element(
+            data.cloudflare_api_token_permission_groups_list.all.result,
+            index(
+              data.cloudflare_api_token_permission_groups_list.all.result.*.name,
+              "Workers R2 Storage Bucket Item Write"
+            )
+          ).id
+        },
+        {
+          id = element(
+            data.cloudflare_api_token_permission_groups_list.all.result,
+            index(
+              data.cloudflare_api_token_permission_groups_list.all.result.*.name,
+              "Workers R2 Storage Bucket Item Read"
+            )
+          ).id
+        },
+      ]
+      resources = {
+        "com.cloudflare.edge.r2.bucket.${var.cloudflare_account_id}_default_${cloudflare_r2_bucket.gotosocial_media.id}" = "*"
+      }
+    },
+    {
+      effect = "allow"
+      permission_groups = [
+        {
+          id = element(
+            data.cloudflare_api_token_permission_groups_list.all.result,
+            index(
+              data.cloudflare_api_token_permission_groups_list.all.result.*.name,
+              "Workers R2 Storage Read"
+            )
+          ).id
+        }
+      ],
+      resources = {
+        "com.cloudflare.api.account.${var.cloudflare_account_id}" = "*"
+      }
+    }
+  ]
+  status = "active"
+}
+
+data "cloudflare_api_token_permission_groups_list" "all" {}
 
 # Reverse Proxy
 resource "cloudflare_zero_trust_tunnel_cloudflared" "gotosocial" {
