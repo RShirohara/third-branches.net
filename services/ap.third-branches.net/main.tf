@@ -40,6 +40,37 @@ provider "cloudflare" {
 # App Container
 
 # DB Instance
+resource "aws_lightsail_database" "gotosocial" {
+  relational_database_name = "gotosocial-db"
+  availability_zone = data.aws_availability_zones.availability_zone.names[0]
+  master_database_name = "gotosocial"
+  master_username = "gotosocial"
+  master_password = random_password.db_password.result
+  blueprint_id = "postgres_15"
+  bundle_id = "micro_2_0"
+  preferred_backup_window = "18:00-19:00"
+  backup_retention_enabled = true
+  final_snapshot_name  = "gotosocial-db-delete-${random_string.db_snapshot.id}"
+  skip_final_snapshot = true
+  tags = {
+    service = "gotosocial"
+  }
+}
+
+resource "random_password" "db_password" {
+  length = 64
+  special = false
+}
+
+resource "random_string" "db_snapshot" {
+  length = 8
+  special = false
+  upper = false
+}
+
+data "aws_availability_zones" "availability_zone" {
+  state = "available"
+}
 
 # DNS Record
 resource "cloudflare_dns_record" "gotosocial" {
