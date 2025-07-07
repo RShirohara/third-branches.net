@@ -64,3 +64,12 @@ resource "cloudflare_dns_record" "keyoxide_dns_9C22B2503BDD9E049728C5432C7736811
   comment = "OpenPGP Hashed Proof"
   content = "$2a$11$hT9pZ2V2qPpZdmChREXSru6W2c0YjJphGTbFb8i/BGWe5MXEOFxZK"
 }
+
+resource "cloudflare_dns_record" "keyoxide_dns_9A20FF47C3D9CCE2B0C980FF2A0B2ABA53BCBC12" {
+  name = "third-branches.net"
+  ttl = 1
+  type = "TXT"
+  zone_id = cloudflare_zone.third_branches.id
+  comment = "OpenPGP Hashed Proof"
+  content = "$2a$11$sMdLUduzVGVckvb6SyIGIOiUi2gs2yt73z3KI.KD3RN.sB6ApAmLS"
+}
