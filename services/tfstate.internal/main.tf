@@ -2,7 +2,7 @@ terraform {
   required_providers {
     cloudflare = {
       source = "cloudflare/cloudflare"
-      version = "5.6.0"
+      version = "5.7.1"
     }
   }
 }
@@ -20,10 +20,6 @@ resource "cloudflare_r2_bucket" "tfstate_bucket" {
 
 # API Token
 resource "cloudflare_api_token" "tfstate_sync" {
-  lifecycle {
-    ignore_changes = [ "status" ]
-  }
-
   name = "tfstate-sync"
   policies = [
     {
@@ -54,6 +50,7 @@ resource "cloudflare_api_token" "tfstate_sync" {
     },
   ]
   expires_on = "2025-08-31T23:59:59Z"
+  status = "active"
 }
 
 data "cloudflare_api_token_permission_groups_list" "all" {}
