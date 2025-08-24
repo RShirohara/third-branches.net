@@ -1,0 +1,12 @@
+[Unit]
+Description=Jellyfin Server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=exec
+ExecStart=podman compose --file="%h/.local/share/jellyfin/compose.yaml" up
+ExecStop=podman compose --file="%h/.local/share/jellyfin/compose.yaml" down
+
+[Install]
+WantedBy=network-online.target
