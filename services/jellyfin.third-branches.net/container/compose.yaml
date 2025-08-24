@@ -1,0 +1,60 @@
+services:
+  app:
+    image: "ghcr.io/jellyfin/jellyfin:10.10.7"
+    container_name: "jellyfin_app"
+    volumes:
+      - type: "tmpfs"
+        target: "/cache"
+      - type: "bind"
+        source: "./config"
+        target: "/config"
+        bind:
+          propagation: "shared"
+          selinux: "z"
+      - type: "bind"
+        source: "${HOME}/Documents/Books"
+        target: "/media/Books"
+        read_only: true
+        bind:
+          propagation: "shared"
+          selinux: "z"
+      - type: "bind"
+        source: "${HOME}/Videos/Movies"
+        target: "/media/Movies"
+        read_only: true
+        bind:
+          propagation: "shared"
+          selinux: "z"
+      - type: "bind"
+        source: "${HOME}/Music"
+        target: "/media/Music"
+        read_only: true
+        bind:
+          propagation: "shared"
+          selinux: "z"
+      - type: "bind"
+        source: "${HOME}/Videos/Shows"
+        target: "/media/Shows"
+        read_only: true
+        bind:
+          propagation: "shared"
+          selinux: "z"
+    ports:
+      - "8096:8096"
+    env_file:
+      - ".env"
+    restart: "unless-stopped"
+
+  tunnel:
+    image: "docker.io/cloudflare/cloudflared:2025.8.1"
+    container_name: "jellyfin_tunnel"
+    depends_on:
+      - "app"
+    restart: "always"
+    env_file:
+      - ".env"
+    command: ["tunnel", "run"]
+
+networks:
+  default:
+    name: "jellyfin"
