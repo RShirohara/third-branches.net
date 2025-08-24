@@ -44,35 +44,6 @@ resource "cloudflare_dns_record" "jellyfin" {
 }
 
 # Reverse Proxy
-resource "cloudflare_zero_trust_access_application" "jellyfin" {
-  zone_id = var.cloudflare_zone_id
-  allow_authenticate_via_warp = true
-  destinations = [
-    {
-      type = "public"
-      uri = cloudflare_dns_record.jellyfin.name
-    }
-  ]
-  logo_url = "https://raw.githubusercontent.com/jellyfin/jellyfin-ux/refs/heads/master/branding/SVG/banner-light.svg"
-  name = "Jellyfin"
-  policies = [
-    {
-      decision = "allow"
-      include = [
-        {
-          email = {
-            email = "jellyfin.third-branches.net.distract142@passmail.net"
-          }
-        }
-      ]
-      name = "Jellyfin: Mail OTP"
-    }
-  ]
-  service_auth_401_redirect = true
-  session_duration = "24h"
-  type = "self_hosted"
-}
-
 resource "cloudflare_zero_trust_tunnel_cloudflared" "jellyfin" {
   account_id = var.cloudflare_account_id
   name = "jellyfin"
@@ -93,7 +64,7 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "jellyfin" {
       }
     ]
     warp_routing = {
-      enabled = true
+      enabled = false
     }
   }
 }
