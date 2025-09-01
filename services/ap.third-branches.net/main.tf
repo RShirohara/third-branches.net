@@ -20,7 +20,7 @@ terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      version = "6.7.0"
+      version = "6.11.0"
     }
     cloudflare = {
       source = "cloudflare/cloudflare"
@@ -212,7 +212,6 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "gotosocial" {
       enabled = false
     }
   }
-  source = "cloudflare"
 }
 
 resource "random_id" "tunnel_secret" {

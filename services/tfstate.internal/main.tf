@@ -49,7 +49,7 @@ resource "cloudflare_api_token" "tfstate_sync" {
       }
     },
   ]
-  expires_on = "2025-08-31T23:59:59Z"
+  expires_on = "2025-12-31T23:59:59Z"
   status = "active"
 }
 
