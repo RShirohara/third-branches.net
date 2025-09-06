@@ -5,7 +5,7 @@
 ## Infrastructure
 
 - App Hosting: AWS Lightsail Container
-  - Power: `nano`
+  - Power: `micro`
   - Scale: `1`
 - DB: AWS Lightsail Database
   - Blueprint: PostgreSQL 15
