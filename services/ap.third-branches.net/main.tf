@@ -40,7 +40,7 @@ provider "cloudflare" {
 # App Container
 resource "aws_lightsail_container_service" "gotosocial" {
   name = "gotosocial-service"
-  power = "nano"
+  power = "micro"
   scale = 1
   tags = {
     service = "gotosocial"
