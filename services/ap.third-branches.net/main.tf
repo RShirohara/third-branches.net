@@ -76,7 +76,7 @@ resource "aws_lightsail_container_service_deployment_version" "gotosocial" {
   }
   container {
     container_name = "tunnel"
-    image = "cloudflare/cloudflared:2025.9.1"
+    image = "cloudflare/cloudflared:2025.10.0"
     command = ["tunnel", "run"]
     environment = {
       SERVICE_CON = "service://localhost"
