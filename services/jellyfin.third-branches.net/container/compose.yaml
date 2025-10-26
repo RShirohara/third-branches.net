@@ -12,29 +12,8 @@ services:
           propagation: "shared"
           selinux: "z"
       - type: "bind"
-        source: "${HOME}/Documents/Books"
-        target: "/media/Books"
-        read_only: true
-        bind:
-          propagation: "shared"
-          selinux: "z"
-      - type: "bind"
-        source: "${HOME}/Videos/Movies"
-        target: "/media/Movies"
-        read_only: true
-        bind:
-          propagation: "shared"
-          selinux: "z"
-      - type: "bind"
-        source: "${HOME}/Music"
-        target: "/media/Music"
-        read_only: true
-        bind:
-          propagation: "shared"
-          selinux: "z"
-      - type: "bind"
-        source: "${HOME}/Videos/Shows"
-        target: "/media/Shows"
+        source: "./media"
+        target: "/media"
         read_only: true
         bind:
           propagation: "shared"
