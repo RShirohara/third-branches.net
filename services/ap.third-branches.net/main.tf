@@ -52,7 +52,7 @@ resource "aws_lightsail_container_service_deployment_version" "gotosocial" {
 
   container {
     container_name = "app"
-    image = "superseriousbusiness/gotosocial:0.20.1"
+    image = "superseriousbusiness/gotosocial:0.20.0"
     environment = {
       SERVICE_CON = "service://localhost"
       TZ = "Asia/Tokyo"
