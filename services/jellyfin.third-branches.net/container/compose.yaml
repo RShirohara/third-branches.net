@@ -1,6 +1,6 @@
 services:
   app:
-    image: "ghcr.io/jellyfin/jellyfin:10.11.1"
+    image: "ghcr.io/jellyfin/jellyfin:10.11.2"
     container_name: "jellyfin_app"
     volumes:
       - type: "tmpfs"
@@ -25,7 +25,7 @@ services:
     restart: "unless-stopped"
 
   tunnel:
-    image: "docker.io/cloudflare/cloudflared:2025.10.1"
+    image: "docker.io/cloudflare/cloudflared:2025.11.1"
     container_name: "jellyfin_tunnel"
     depends_on:
       - "app"
