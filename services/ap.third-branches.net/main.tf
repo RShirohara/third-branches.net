@@ -52,7 +52,7 @@ resource "aws_lightsail_container_service_deployment_version" "gotosocial" {
 
   container {
     container_name = "app"
-    image = "superseriousbusiness/gotosocial:0.20.0"
+    image = "superseriousbusiness/gotosocial:0.20.1"
     environment = {
       SERVICE_CON = "service://localhost"
       TZ = "Asia/Tokyo"
@@ -92,7 +92,7 @@ resource "aws_lightsail_database" "gotosocial" {
   master_database_name = "gotosocial"
   master_username = "gotosocial"
   master_password = random_password.db_password.result
-  blueprint_id = "postgres_15"
+  blueprint_id = "postgres_17"
   bundle_id = "micro_2_0"
   preferred_backup_window = "18:00-19:00"
   backup_retention_enabled = true
