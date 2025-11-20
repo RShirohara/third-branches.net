@@ -1,12 +1,10 @@
 version: 2
 
 updates:
-  # Terraform
-  - package-ecosystem: "terraform"
+  # OpenTofu
+  - package-ecosystem: "opentofu"
     directories:
       - "/services/*"
-    registries:
-      - "terraform-opentofu"
     schedule:
       interval: "monthly"
       time: "03:00"
@@ -15,9 +13,3 @@ updates:
       - "Type: Dependencies"
     assignees:
       - "RShirohara"
-
-registries:
-  terraform-opentofu:
-    type: "terraform-registry"
-    url: "https://registry.opentofu.org"
-    token: ""
