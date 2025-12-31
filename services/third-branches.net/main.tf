@@ -73,3 +73,28 @@ resource "cloudflare_dns_record" "keyoxide_dns_9A20FF47C3D9CCE2B0C980FF2A0B2ABA5
   comment = "OpenPGP Hashed Proof"
   content = "$2a$11$sMdLUduzVGVckvb6SyIGIOiUi2gs2yt73z3KI.KD3RN.sB6ApAmLS"
 }
+
+# Rulesets
+resource "cloudflare_ruleset" "headers_replacement" {
+  zone_id = cloudflare_zone.third_branches.id
+  name = "third-branches.net: Header replacements"
+  phase = "http_request_late_transform"
+  kind = "zone"
+
+  rules = [
+    {
+      description = "ap.third-branches.net: OverWrite user-agent for attachments"
+      action = "rewrite"
+      expression = "(http.request.full_uri wildcard \"https://ap.third-branches.net/fileserver/*\")"
+      action_parameters = {
+        headers = {
+          User-Agent = {
+            operation = "set"
+            value = "Cloudflare"
+          }
+        }
+      }
+      enabled = true
+    }
+  ]
+}
