@@ -15,6 +15,7 @@ Service and deployment definitions for `third-branches.net`.
       - Account: Workers R2 Storage: Edit
       - Account: Cloudflare Tunnel: Edit
       - User: API Tokens: Edit
+      - Zone: Transform Rules: Edit
       - Zone: Bot Management: Edit
       - Zone: Zone: Edit
       - Zone: DNS: Edit
