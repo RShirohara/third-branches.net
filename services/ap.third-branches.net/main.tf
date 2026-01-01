@@ -24,7 +24,7 @@ terraform {
     }
     cloudflare = {
       source = "cloudflare/cloudflare"
-      version = "5.12.0"
+      version = "5.15.0"
     }
     random = {
       source = "hashicorp/random"
@@ -162,9 +162,9 @@ resource "cloudflare_api_token" "gotosocial_media" {
           ).id
         },
       ]
-      resources = {
+      resources = jsonencode({
         "com.cloudflare.edge.r2.bucket.${var.cloudflare_account_id}_default_${cloudflare_r2_bucket.gotosocial_media.id}" = "*"
-      }
+      })
     },
     {
       effect = "allow"
@@ -179,9 +179,9 @@ resource "cloudflare_api_token" "gotosocial_media" {
           ).id
         }
       ],
-      resources = {
+      resources = jsonencode({
         "com.cloudflare.api.account.${var.cloudflare_account_id}" = "*"
-      }
+      })
     }
   ]
   status = "active"
