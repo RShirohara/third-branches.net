@@ -2,7 +2,7 @@ terraform {
   required_providers {
     cloudflare = {
       source = "cloudflare/cloudflare"
-      version = "5.12.0"
+      version = "5.15.0"
     }
   }
 }
@@ -44,9 +44,9 @@ resource "cloudflare_api_token" "tfstate_sync" {
           ).id
         },
       ]
-      resources = {
+      resources = jsonencode({
         "com.cloudflare.edge.r2.bucket.${var.cloudflare_account_id}_default_${cloudflare_r2_bucket.tfstate_bucket.id}" = "*"
-      }
+      })
     },
   ]
   expires_on = "2027-01-01T00:00:00Z"
