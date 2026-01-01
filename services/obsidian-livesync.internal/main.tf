@@ -63,9 +63,9 @@ resource "cloudflare_api_token" "obsidian_livesync" {
           ).id
         },
       ]
-      resources = {
+      resources = jsonencode({
         "com.cloudflare.edge.r2.bucket.${var.cloudflare_account_id}_default_${cloudflare_r2_bucket.obsidian_livesync.id}" = "*"
-      }
+      })
     },
   ]
   status = "active"
