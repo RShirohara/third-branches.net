@@ -1,0 +1,158 @@
+# yaml-language-server: $schema=https://relativ-it.github.io/Butane-Schemas/Butane-Schema.json
+
+variant: "fcos"
+version: "1.6.0"
+
+storage:
+  files:
+    - path: "/etc/avahi/services/cockpit.service"
+      mode: 0644
+      overwrite: true
+      contents:
+        inline: |
+          <?xml version="1.0" standalone='no'?><!--*-nxml-*-->
+          <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+          <service-group>
+            <name replace-wildcards="yes">%h</name>
+            <service>
+              <type>_websm._tcp</type>
+              <port>9090</port>
+            </service>
+          </service-group>
+    - path: "/etc/avahi/services/ssh.service"
+      mode: 0644
+      overwrite: true
+      contents:
+        inline: |
+          <?xml version="1.0" standalone='no'?><!--*-nxml-*-->
+          <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+          <service-group>
+            <name replace-wildcards="yes">%h</name>
+            <service>
+              <type>_ssh._tcp</type>
+              <port>22</port>
+            </service>
+          </service-group>
+    - path: "/etc/cockpit/cockpit.conf"
+      mode: 0644
+      overwrite: true
+      contents:
+        inline: |
+          [WebService]
+          AllowUnencrypted = true
+    - path: "/etc/firewalld/zones/public.xml"
+      mode: 0644
+      overwrite: true
+      contents:
+        inline: |
+          <?xml version="1.0" encoding="utf-8"?>
+          <zone>
+            <short>Public</short>
+            <description>Overridden default config.</description>
+            <service name="cockpit"/>
+            <service name="dhcpv6-client"/>
+            <service name="mdns"/>
+            <service name="ssh"/>
+            <forward/>
+          </zone>
+    - path: "/etc/hostname"
+      mode: 0644
+      overwrite: true
+      contents:
+        inline: |
+          pc-208eacfe8
+    - path: "/etc/ssh/sshd_config.d/20-enable-passwords.conf"
+      mode: 0644
+      contents:
+        inline: |
+          PasswordAuthentication yes
+    - path: "/etc/zincati/config.d/51-rollout-wariness.toml"
+      mode: 0644
+      contents:
+        inline: |
+          [identity]
+          rollout_wariness = 0.1
+    - path: "/etc/zincati/config.d/55-updates-strategy.toml"
+      mode: 0644
+      contents:
+        inline: |
+          [updates]
+          strategy = "periodic"
+
+          [[updates.periodic.window]]
+          days = [ "Sat" ]
+          start_time = "18:00"
+          length_minutes = 120
+  directories:
+    - path: "/var/opt/media"
+      mode: 0644
+      user:
+        name: "container"
+      group:
+        name: "container"
+
+systemd:
+  units:
+    - name: "install-dependency.service"
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Install dependency on first setup
+        Before=zincati.service
+        Wants=network-online.target
+        After=network-online.target
+        ConditionPathExists=!/var/lib/install-dependency.stamp
+
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStart=/usr/bin/rpm-ostree install -y --allow-inactive avahi cockpit-files cockpit-ostree cockpit-podman cockpit-system firewalld
+        ExecStart=/bin/touch /var/lib/install-dependency.stamp
+        ExecStart=/bin/systemctl --no-block reboot
+
+        [Install]
+        WantedBy=multi-user.target
+    - name: "firewalld.service"
+      enabled: true
+      dropins:
+        - name: "10-wait-dependency-installation.conf"
+          contents: |
+            [Unit]
+            ConditionPathExists=/var/lib/install-dependency.stamp
+    - name: "avahi-daemon.service"
+      enabled: true
+      dropins:
+        - name: "10-wait-dependency-installation.conf"
+          contents: |
+            [Unit]
+            ConditionPathExists=/var/lib/install-dependency.stamp
+    - name: "cockpit-ws.service"
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Cockpit web UI
+        Wants=network-online.target
+        After=network-online.target
+        ConditionPathExists=/var/lib/install-dependency.stamp
+
+        [Service]
+        Type=oneshot
+        ExecStartPre=-/usr/bin/podman rm -f cockpit-ws
+        ExecStart=/usr/bin/podman container runlabel --name cockpit-ws RUN quay.io/cockpit/ws:latest
+        ExecStop=/usr/bin/podman rm -f cockpit-ws
+        RemainAfterExit=yes
+        KillMode=none
+
+        [Install]
+        WantedBy=multi-user.target
+
+passwd:
+  users:
+    - name: "" # TODO: Generate random user name for admin.
+      ssh_authorized_keys:
+        - "ssh-ed25519 A" # TODO: Set your ssh pubkey.
+      password_hash: "" # TODO: Generate random user password.
+      groups:
+        - "wheel"
+    - name: "container"
+      password_hash: "" # TODO: Generate random user password.
