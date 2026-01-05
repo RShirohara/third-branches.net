@@ -1,0 +1,14 @@
+[Unit]
+Description=Navidrome streaming server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Restart=always
+
+[Pod]
+Label="navidrome.third-branches.net"
+PublishPort=4533:4533
+
+[Install]
+WantedBy=default.target
