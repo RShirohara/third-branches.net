@@ -1,5 +1,7 @@
 {
   "files.associations": {
-    "*.bu": "yaml"
+    "*.bu": "yaml",
+    "*.container": "properties",
+    "*.pod": "properties"
   }
 }
