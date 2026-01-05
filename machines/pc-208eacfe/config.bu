@@ -56,7 +56,7 @@ storage:
       overwrite: true
       contents:
         inline: |
-          pc-208eacfe8
+          pc-208eacfe
     - path: "/etc/ssh/sshd_config.d/20-enable-passwords.conf"
       mode: 0644
       contents:
