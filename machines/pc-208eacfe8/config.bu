@@ -7,7 +7,6 @@ storage:
   files:
     - path: "/etc/avahi/services/cockpit.service"
       mode: 0644
-      overwrite: true
       contents:
         inline: |
           <?xml version="1.0" standalone='no'?><!--*-nxml-*-->
@@ -21,7 +20,6 @@ storage:
           </service-group>
     - path: "/etc/avahi/services/ssh.service"
       mode: 0644
-      overwrite: true
       contents:
         inline: |
           <?xml version="1.0" standalone='no'?><!--*-nxml-*-->
@@ -35,14 +33,12 @@ storage:
           </service-group>
     - path: "/etc/cockpit/cockpit.conf"
       mode: 0644
-      overwrite: true
       contents:
         inline: |
           [WebService]
           AllowUnencrypted = true
     - path: "/etc/firewalld/zones/public.xml"
       mode: 0644
-      overwrite: true
       contents:
         inline: |
           <?xml version="1.0" encoding="utf-8"?>
@@ -83,57 +79,24 @@ storage:
           days = [ "Sat" ]
           start_time = "18:00"
           length_minutes = 120
-  directories:
-    - path: "/var/opt/media"
-      mode: 0644
-      user:
-        name: "container"
-      group:
-        name: "container"
 
 systemd:
   units:
-    - name: "install-dependency.service"
-      enabled: true
-      contents: |
-        [Unit]
-        Description=Install dependency on first setup
-        Before=zincati.service
-        Wants=network-online.target
-        After=network-online.target
-        ConditionPathExists=!/var/lib/install-dependency.stamp
-
-        [Service]
-        Type=oneshot
-        RemainAfterExit=yes
-        ExecStart=/usr/bin/rpm-ostree install -y --allow-inactive avahi cockpit-files cockpit-ostree cockpit-podman cockpit-system firewalld
-        ExecStart=/bin/touch /var/lib/install-dependency.stamp
-        ExecStart=/bin/systemctl --no-block reboot
-
-        [Install]
-        WantedBy=multi-user.target
-    - name: "firewalld.service"
-      enabled: true
-      dropins:
-        - name: "10-wait-dependency-installation.conf"
-          contents: |
-            [Unit]
-            ConditionPathExists=/var/lib/install-dependency.stamp
     - name: "avahi-daemon.service"
       enabled: true
       dropins:
         - name: "10-wait-dependency-installation.conf"
           contents: |
             [Unit]
-            ConditionPathExists=/var/lib/install-dependency.stamp
+            ConditionPathExists=/var/lib/rpm-ostree-install-dependency.stamp
     - name: "cockpit-ws.service"
       enabled: true
       contents: |
         [Unit]
-        Description=Cockpit web UI
+        Description=Cockpit web server
         Wants=network-online.target
         After=network-online.target
-        ConditionPathExists=/var/lib/install-dependency.stamp
+        ConditionPathExists=/var/lib/rpm-ostree-install-dependency.stamp
 
         [Service]
         Type=oneshot
@@ -145,14 +108,36 @@ systemd:
 
         [Install]
         WantedBy=multi-user.target
+    - name: "firewalld.service"
+      enabled: true
+      dropins:
+        - name: "10-wait-dependency-installation.conf"
+          contents: |
+            [Unit]
+            ConditionPathExists=/var/lib/rpm-ostree-install-dependency.stamp
+    - name: "rpm-ostree-install-dependency.service"
+      enabled: true
+      contents: |
+        [Unit]
+        Description=Install dependency by rpm-ostree on first setup
+        Before=zincati.service
+        Wants=network-online.target
+        After=network-online.target
+        ConditionPathExists=!/var/lib/rpm-ostree-install-dependency.stamp
+
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStart=/usr/bin/rpm-ostree install -y --allow-inactive avahi cockpit-files cockpit-ostree cockpit-podman cockpit-system firewalld
+        ExecStart=/bin/touch /var/lib/rpm-ostree-install-dependency.stamp
+        ExecStart=/bin/systemctl --no-block reboot
+
+        [Install]
+        WantedBy=multi-user.target
 
 passwd:
   users:
-    - name: "" # TODO: Generate random user name for admin.
+    - name: "core"
       ssh_authorized_keys:
-        - "ssh-ed25519 A" # TODO: Set your ssh pubkey.
-      password_hash: "" # TODO: Generate random user password.
-      groups:
-        - "wheel"
-    - name: "container"
-      password_hash: "" # TODO: Generate random user password.
+        - "ssh-ed25519 A" # TODO: Set ssh pubkey.
+      password_hash: "" # TODO: generate random user password.
