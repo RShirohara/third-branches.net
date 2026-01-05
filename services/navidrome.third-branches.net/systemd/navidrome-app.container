@@ -1,0 +1,21 @@
+[Unit]
+Description=Navidrome streaming server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Restart=always
+SyslogLevel=info
+TimeoutStartSec=900
+
+[Container]
+Label="navidrome-app"
+Pod="navidrome.pod"
+Image=docker.io/deluan/navidrome:latest
+Mount=type=bind,src=%h/Music,dst=/music,readonly=true,relabel=shared
+Mount=type=bind,src=%h/.local/share/navidrome,dst=/data,relabel=shared
+Environment=ND_BASEURL=https://navidrome.third-branches.net
+Environment=ND_DEFAULTTHEME=Spotify-ish
+
+[Install]
+WantedBy=default.target
