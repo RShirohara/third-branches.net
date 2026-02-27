@@ -74,6 +74,80 @@ resource "cloudflare_dns_record" "keyoxide_dns_9A20FF47C3D9CCE2B0C980FF2A0B2ABA5
   content = "$2a$11$sMdLUduzVGVckvb6SyIGIOiUi2gs2yt73z3KI.KD3RN.sB6ApAmLS"
 }
 
+resource "cloudflare_dns_record" "protonmail_dkim_first" {
+  name = "protonmail._domainkey.third-branches.net"
+  ttl = 1
+  type = "CNAME"
+  zone_id = cloudflare_zone.third_branches.id
+  comment = "Proton Mail: Domain keys"
+  content = "protonmail.domainkey.dvme3lwzs7w5ah6qmu7xofcqtxebu46i23nx4z7nqy77hd4vzw3la.domains.proton.ch."
+}
+
+resource "cloudflare_dns_record" "protonmail_dkim_second" {
+  name = "protonmail2._domainkey.third-branches.net"
+  ttl = 1
+  type = "CNAME"
+  zone_id = cloudflare_zone.third_branches.id
+  comment = "Proton Mail: Domain keys"
+  content = "protonmail2.domainkey.dvme3lwzs7w5ah6qmu7xofcqtxebu46i23nx4z7nqy77hd4vzw3la.domains.proton.ch."
+}
+
+resource "cloudflare_dns_record" "protonmail_dkim_third" {
+  name = "protonmail3._domainkey.third-branches.net"
+  ttl = 1
+  type = "CNAME"
+  zone_id = cloudflare_zone.third_branches.id
+  comment = "Proton Mail: Domain keys"
+  content = "protonmail3.domainkey.dvme3lwzs7w5ah6qmu7xofcqtxebu46i23nx4z7nqy77hd4vzw3la.domains.proton.ch."
+}
+
+resource "cloudflare_dns_record" "protonmail_dmarc" {
+  name = "_dmarc.third-branches.net"
+  ttl = 1
+  type = "TXT"
+  zone_id = cloudflare_zone.third_branches.id
+  comment = "Proton Mail: Message authentication reporting and conformance"
+  content = "v=DMARC1; p=quarantine"
+}
+
+resource "cloudflare_dns_record" "protonmail_mx_first" {
+  name = "third-branches.net"
+  ttl = 1
+  type = "MX"
+  zone_id = cloudflare_zone.third_branches.id
+  comment = "Proton Mail: Mail exchanger"
+  priority = 10
+  content = "mail.protonmail.ch"
+}
+
+resource "cloudflare_dns_record" "protonmail_mx_second" {
+  name = "third-branches.net"
+  ttl = 1
+  type = "MX"
+  zone_id = cloudflare_zone.third_branches.id
+  comment = "Proton Mail: Mail exchanger"
+  priority = 20
+  content = "mailsec.protonmail.ch"
+}
+
+resource "cloudflare_dns_record" "protonmail_spf" {
+  name = "third-branches.net"
+  ttl = 1
+  type =  "TXT"
+  zone_id = cloudflare_zone.third_branches.id
+  comment = "Proton Mail: Sender policy framework"
+  content = "v=spf1 include:_spf.protonmail.ch ~all"
+}
+
+resource "cloudflare_dns_record" "protonmail_verification" {
+  name = "third-branches.net"
+  ttl = 1
+  type =  "TXT"
+  zone_id = cloudflare_zone.third_branches.id
+  comment = "Proton Mail: DNS verification"
+  content = "protonmail-verification=b058f104b647c106fd9e9fb1ec97de97166fbdab"
+}
+
 # Rulesets
 resource "cloudflare_ruleset" "headers_replacement" {
   zone_id = cloudflare_zone.third_branches.id
