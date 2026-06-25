@@ -9,5 +9,6 @@ config_roots = [
 ]
 
 [tools]
+"aqua:koalaman/shellcheck" = "latest"
 "aqua:opentofu/opentofu" = "latest"
 "github:jdx/fnox" = "latest"
