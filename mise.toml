@@ -1,3 +1,13 @@
+#:schema https://mise.en.dev/schema/mise.json
+
+experimental_monorepo_root = true
+
+[monorepo]
+config_roots = [
+  "./machines/*",
+  "./services/*"
+]
+
 [tools]
 "aqua:opentofu/opentofu" = "latest"
 "github:jdx/fnox" = "latest"
