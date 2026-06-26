@@ -7,6 +7,6 @@ output "access_key" {
 }
 
 output "secret_key" {
-  value = sha256(cloudflare_api_token.tfstate_sync.value)
+  value     = sha256(cloudflare_api_token.tfstate_sync.value)
   sensitive = true
 }
