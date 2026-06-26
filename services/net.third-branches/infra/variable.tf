@@ -6,10 +6,6 @@ variable "cloudflare_api_token" {
   type = string
 }
 
-variable "cloudflare_zone_id" {
-  type = string
-}
-
 variable "terraform_backend_endpoint_s3_url" {
   type = string
 }

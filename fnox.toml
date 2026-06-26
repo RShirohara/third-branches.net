@@ -1,0 +1,12 @@
+default_provider = "proton-pass"
+
+[providers.proton-pass]
+type = "proton-pass"
+
+[secrets]
+TF_VAR_cloudflare_account_id = { provider = "proton-pass", value = "pass://SEEk9pJ4CYRWFmZhTQnOiAEnGBld8au5wunOi6XNKUmaNYWM2inrSWJnCLUBrwQtp57G1qnnz3Ym1ALBiSu4QA==/fZg1TWq42Q8giUHjELfRfAK0eQT3Ha0z_wOMSNt26kosYFrimzpKom6rwbQ8tkdqZpFAcIRlFmEuMYGbgPd3CA==/TF_VAR_cloudflare_account_id" }
+TF_VAR_cloudflare_api_token = { provider = "proton-pass", value = "pass://SEEk9pJ4CYRWFmZhTQnOiAEnGBld8au5wunOi6XNKUmaNYWM2inrSWJnCLUBrwQtp57G1qnnz3Ym1ALBiSu4QA==/fZg1TWq42Q8giUHjELfRfAK0eQT3Ha0z_wOMSNt26kosYFrimzpKom6rwbQ8tkdqZpFAcIRlFmEuMYGbgPd3CA==/TF_VAR_cloudflare_api_token" }
+TF_VAR_cloudflare_zone_id = { provider = "proton-pass", value = "pass://SEEk9pJ4CYRWFmZhTQnOiAEnGBld8au5wunOi6XNKUmaNYWM2inrSWJnCLUBrwQtp57G1qnnz3Ym1ALBiSu4QA==/fZg1TWq42Q8giUHjELfRfAK0eQT3Ha0z_wOMSNt26kosYFrimzpKom6rwbQ8tkdqZpFAcIRlFmEuMYGbgPd3CA==/TF_VAR_cloudflare_zone_id" }
+TF_VAR_terraform_backend_access_key = { provider = "proton-pass", value = "pass://SEEk9pJ4CYRWFmZhTQnOiAEnGBld8au5wunOi6XNKUmaNYWM2inrSWJnCLUBrwQtp57G1qnnz3Ym1ALBiSu4QA==/fZg1TWq42Q8giUHjELfRfAK0eQT3Ha0z_wOMSNt26kosYFrimzpKom6rwbQ8tkdqZpFAcIRlFmEuMYGbgPd3CA==/TF_VAR_terraform_backend_access_key" }
+TF_VAR_terraform_backend_endpoint_s3_url = { provider = "proton-pass", value = "pass://SEEk9pJ4CYRWFmZhTQnOiAEnGBld8au5wunOi6XNKUmaNYWM2inrSWJnCLUBrwQtp57G1qnnz3Ym1ALBiSu4QA==/fZg1TWq42Q8giUHjELfRfAK0eQT3Ha0z_wOMSNt26kosYFrimzpKom6rwbQ8tkdqZpFAcIRlFmEuMYGbgPd3CA==/TF_VAR_terraform_backend_endpoint_s3_url" }
+TF_VAR_terraform_backend_secret_key = { provider = "proton-pass", value = "pass://SEEk9pJ4CYRWFmZhTQnOiAEnGBld8au5wunOi6XNKUmaNYWM2inrSWJnCLUBrwQtp57G1qnnz3Ym1ALBiSu4QA==/fZg1TWq42Q8giUHjELfRfAK0eQT3Ha0z_wOMSNt26kosYFrimzpKom6rwbQ8tkdqZpFAcIRlFmEuMYGbgPd3CA==/TF_VAR_terraform_backend_secret_key" }

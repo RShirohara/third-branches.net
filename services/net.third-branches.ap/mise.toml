@@ -1,0 +1,24 @@
+#:schema https://mise.en.dev/schema/mise.json
+
+[deps.opentofu]
+auto = true
+sources = [".terraform.lock.hcl", "main.tf"]
+outputs = [".terraform/"]
+run = "fnox exec -- tofu init"
+dir = "./infra"
+
+[tasks."infra:apply"]
+description = "Applies the changes required to reach the desired state of the configuration."
+run = "fnox exec -- tofu -chdir=${MISE_PROJECT_ROOT}/infra apply"
+
+[tasks."infra:format"]
+description = "Formats the terraform files."
+run = "fnox exec -- tofu -chdir=${MISE_PROJECT_ROOT}/infra fmt"
+
+[tasks."infra:plan"]
+description = "Generates an execution plan for infrastructure."
+run = "fnox exec -- tofu -chdir=${MISE_PROJECT_ROOT}/infra plan"
+
+[tasks."infra:validate"]
+description = "Validates the terraform files."
+run = "fnox exec -- tofu -chdir=${MISE_PROJECT_ROOT}/infra validate"

@@ -1,21 +1,39 @@
 terraform {
+  backend "s3" {
+    bucket                      = "tfstate-bucket"
+    key                         = "internal.tfstate/terraform.tfstate"
+    region                      = "auto"
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
+    skip_region_validation      = true
+    skip_requesting_account_id  = true
+    skip_s3_checksum            = true
+    use_path_style              = true
+
+    access_key = var.terraform_backend_access_key
+    secret_key = var.terraform_backend_secret_key
+    endpoints = {
+      s3 = var.terraform_backend_endpoint_s3_url
+    }
+  }
+
   required_providers {
     cloudflare = {
-      source = "cloudflare/cloudflare"
+      source  = "cloudflare/cloudflare"
       version = "5.19.1"
     }
   }
 }
 
-provider cloudflare {
+provider "cloudflare" {
   api_token = var.cloudflare_api_token
 }
 
 # Bucket
 resource "cloudflare_r2_bucket" "tfstate_bucket" {
   account_id = var.cloudflare_account_id
-  name = "tfstate-bucket"
-  location = "APAC"
+  name       = "tfstate-bucket"
+  location   = "APAC"
 }
 
 # API Token
@@ -50,7 +68,7 @@ resource "cloudflare_api_token" "tfstate_sync" {
     },
   ]
   expires_on = "2027-01-01T00:00:00Z"
-  status = "active"
+  status     = "active"
 }
 
 data "cloudflare_api_token_permission_groups_list" "all" {}

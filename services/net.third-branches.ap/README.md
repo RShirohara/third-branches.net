@@ -1,4 +1,4 @@
-# `ap.third-branches.net`
+# `net.third-branches.ap`
 
 [GoToSocial](https://codeberg.org/superseriousbusiness/gotosocial) instance.
 
