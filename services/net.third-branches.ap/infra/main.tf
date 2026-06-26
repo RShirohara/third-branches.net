@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "tfstate-bucket"
-    key = "ap.third-branches.net/terraform.tfstate"
+    key = "net.third-branches.ap/terraform.tfstate"
     region = "auto"
     skip_credentials_validation = true
     skip_metadata_api_check = true
