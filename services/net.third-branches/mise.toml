@@ -11,9 +11,17 @@ dir = "./infra"
 description = "Build routing script."
 run = "npm exec wrangler -- deploy --dry-run --outdir=${MISE_PROJECT_ROOT}/dist/router"
 
+[tasks."build:website"]
+description = "Build website."
+run = "npm exec vitepress -- build ${MISE_PROJECT_ROOT}/src/website"
+
 [tasks."dev:router"]
 description = "Start development server for routing script."
 run = "npm exec wrangler -- dev"
+
+[tasks."dev:website"]
+description = "Start development server for website."
+run = "npm exec vitepress -- dev ${MISE_PROJECT_ROOT}/src/website"
 
 [tasks."infra:apply"]
 description = "Applies the changes required to reach the desired state of the configuration."
