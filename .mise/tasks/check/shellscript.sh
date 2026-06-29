@@ -5,6 +5,7 @@ set -o errexit -o nounset -o pipefail
 # [MISE] description="Check syntax for shellscript."
 # [USAGE] arg "[files]" {
 # [USAGE]   help "Target files."
+# [USAGE]   var #true
 # [USAGE] }
 # [USAGE] flag "-f --format <format>" {
 # [USAGE]   help "Output format for check result."
@@ -13,7 +14,7 @@ set -o errexit -o nounset -o pipefail
 # [USAGE] }
 
 eval "files=(${usage_files:-})"
-if [ "${#files[*]}" -eq "0" ]; then
+if [ "${#files[*]}" -eq 0 ]; then
   while IFS='' read -r line; do
     files+=("${line}")
   done < <(

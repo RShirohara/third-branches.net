@@ -3,6 +3,17 @@ version: 2
 enable-beta-ecosystems: true
 
 updates:
+  # Npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      time: "03:00"
+      timezone: "Asia/Tokyo"
+    labels:
+      - "Type: Dependencies"
+    assignees:
+      - "RShirohara"
   # OpenTofu
   - package-ecosystem: "opentofu"
     directories:

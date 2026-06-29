@@ -2,6 +2,9 @@
 
 experimental_monorepo_root = true
 
+[deps.npm]
+auto = true
+
 [monorepo]
 config_roots = [
   "./machines/*",
@@ -11,4 +14,5 @@ config_roots = [
 [tools]
 "aqua:koalaman/shellcheck" = "latest"
 "aqua:opentofu/opentofu" = "latest"
+"core:node" = "lts"
 "github:jdx/fnox" = "latest"
