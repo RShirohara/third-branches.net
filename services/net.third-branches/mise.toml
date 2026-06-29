@@ -10,10 +10,14 @@ dir = "./infra"
 [tasks."build:router"]
 description = "Build routing script."
 run = "npm exec wrangler -- deploy --dry-run --outdir=${MISE_PROJECT_ROOT}/dist/router"
+sources = ["./src/router/**/*", "./package.json"]
+outputs = ["./dist/router/**/*"]
 
 [tasks."build:website"]
 description = "Build website."
 run = "npm exec vitepress -- build ${MISE_PROJECT_ROOT}/src/website"
+sources = ["./src/website/**/*", "./package.json"]
+outputs = ["./dist/website/**/*"]
 
 [tasks."dev:router"]
 description = "Start development server for routing script."
@@ -25,7 +29,9 @@ run = "npm exec vitepress -- dev ${MISE_PROJECT_ROOT}/src/website"
 
 [tasks."infra:apply"]
 description = "Applies the changes required to reach the desired state of the configuration."
+depends = [":build*"]
 run = "fnox exec -- tofu -chdir=${MISE_PROJECT_ROOT}/infra apply"
+interactive = true
 
 [tasks."infra:format"]
 description = "Formats the terraform files."
@@ -33,6 +39,7 @@ run = "fnox exec -- tofu -chdir=${MISE_PROJECT_ROOT}/infra fmt"
 
 [tasks."infra:plan"]
 description = "Generates an execution plan for infrastructure."
+depends = [":build*"]
 run = "fnox exec -- tofu -chdir=${MISE_PROJECT_ROOT}/infra plan"
 
 [tasks."infra:validate"]

@@ -148,6 +148,26 @@ resource "cloudflare_dns_record" "protonmail_verification" {
   content = "protonmail-verification=b058f104b647c106fd9e9fb1ec97de97166fbdab"
 }
 
+resource "cloudflare_dns_record" "website_ipv4" {
+  name    = "www.third-branches.net"
+  ttl     = 1
+  type    = "A"
+  zone_id = cloudflare_zone.third_branches.id
+  comment = "Website: IPv4"
+  content = "192.0.2.1"
+  proxied = true
+}
+
+resource "cloudflare_dns_record" "website_ipv6" {
+  name    = "www.third-branches.net"
+  ttl     = 1
+  type    = "AAAA"
+  zone_id = cloudflare_zone.third_branches.id
+  comment = "Website: IPv6"
+  content = "100::"
+  proxied = true
+}
+
 # Rulesets
 resource "cloudflare_ruleset" "headers_replacement" {
   zone_id = cloudflare_zone.third_branches.id
@@ -171,4 +191,77 @@ resource "cloudflare_ruleset" "headers_replacement" {
       enabled = true
     }
   ]
+}
+
+resource "cloudflare_ruleset" "website_redirect" {
+  zone_id = cloudflare_zone.third_branches.id
+  name    = "third-branches.net: Website redirects"
+  phase   = "http_request_dynamic_redirect"
+  kind    = "zone"
+
+  rules = [
+    {
+      description = "www.third-branches.net: Redirect to root domain"
+      action      = "redirect"
+      expression  = "(http.request.full_uri wildcard \"https://www.third-branches.net/*\")"
+      action_parameters = {
+        from_value = {
+          target_url = {
+            value = "https://third-branches.net/$${1}"
+          }
+          preserve_query_string = true
+          status_code           = 301
+        }
+      }
+    }
+  ]
+}
+
+# Workers
+resource "cloudflare_worker" "website" {
+  account_id = var.cloudflare_account_id
+  name       = "net-dot-third-branches-website"
+  observability = {
+    enabled = true
+  }
+  subdomain = {
+    enabled          = false
+    previews_enabled = false
+  }
+}
+
+resource "cloudflare_worker_version" "website" {
+  account_id = var.cloudflare_account_id
+  worker_id  = cloudflare_worker.website.id
+  assets = {
+    config = {
+      html_handling      = "auto-trailing-slash"
+      not_found_handling = "404-page"
+    }
+    directory = "../dist/website"
+  }
+  compatibility_date = "2026-06-29"
+  main_module        = "index.js"
+  modules = [{
+    name         = "index.js"
+    content_type = "application/javascript+module"
+    content_file = "../dist/router/index.js"
+  }]
+}
+
+resource "cloudflare_workers_deployment" "website" {
+  account_id  = var.cloudflare_account_id
+  script_name = cloudflare_worker.website.name
+  strategy    = "percentage"
+  versions = [{
+    percentage = 100
+    version_id = cloudflare_worker_version.website.id
+  }]
+}
+
+resource "cloudflare_workers_custom_domain" "website" {
+  account_id = var.cloudflare_account_id
+  hostname   = "third-branches.net"
+  service    = cloudflare_worker.website.name
+  zone_id    = cloudflare_zone.third_branches.id
 }

@@ -14,11 +14,13 @@ Service and deployment definitions for `third-branches.net`.
     - Permissions:
       - Account: Workers R2 Storage: Edit
       - Account: Cloudflare Tunnel: Edit
+      - Account: Workers Scripts: Edit
       - User: API Tokens: Edit
       - Zone: Transform Rules: Edit
       - Zone: Bot Management: Edit
       - Zone: Zone: Edit
       - Zone: DNS: Edit
+      - Zone: Single Redirect: Edit
     - Account Resources:
       - Include: Third Branches
     - Zone Resources
