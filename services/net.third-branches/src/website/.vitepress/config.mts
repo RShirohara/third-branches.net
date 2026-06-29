@@ -7,14 +7,20 @@ export default defineConfig({
   themeConfig: {
     sidebar: [
       {
-        text: "Home",
-        link: "/",
-      },
-      {
-        text: "Identities",
-        items: [],
+        text: "身分証明",
+        items: [
+          {
+            text: "Ray Shirohara (城原 零)",
+            link: "/identities/ray-shirohara",
+          },
+          {
+            text: "Rei Shiroto (白戸 レイ)",
+            link: "/identities/rei-shiroto",
+          },
+        ],
       },
     ],
   },
   outDir: "../../dist/website",
+  lastUpdated: true,
 });
