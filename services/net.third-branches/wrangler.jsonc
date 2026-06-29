@@ -1,0 +1,6 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "net-dot-third-branches-router",
+  "main": "./src/router/index.mts",
+  "compatibility_date": "2026-06-29"
+}

@@ -7,6 +7,14 @@ outputs = [".terraform/"]
 run = "fnox exec -- tofu init"
 dir = "./infra"
 
+[tasks."build:router"]
+description = "Build routing script."
+run = "npm exec wrangler -- deploy --dry-run --outdir=${MISE_PROJECT_ROOT}/dist/router"
+
+[tasks."dev:router"]
+description = "Start development server for routing script."
+run = "npm exec wrangler -- dev"
+
 [tasks."infra:apply"]
 description = "Applies the changes required to reach the desired state of the configuration."
 run = "fnox exec -- tofu -chdir=${MISE_PROJECT_ROOT}/infra apply"
