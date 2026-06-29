@@ -1,7 +1,9 @@
 {
   "name": "third-branches-dot-net",
   "private": true,
-  "devDependencies": {},
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.1"
+  },
   "workspaces": [
     "./services/*"
   ]
