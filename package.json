@@ -1,0 +1,8 @@
+{
+  "name": "third-branches-dot-net",
+  "private": true,
+  "devDependencies": {},
+  "workspaces": [
+    "./services/*"
+  ]
+}
