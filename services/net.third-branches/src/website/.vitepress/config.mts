@@ -8,6 +8,7 @@ export default defineConfig({
     sidebar: [
       {
         text: "身分証明",
+        collapsed: false,
         items: [
           {
             text: "Ray Shirohara (城原 零)",
