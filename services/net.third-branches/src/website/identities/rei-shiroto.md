@@ -1,8 +1,3 @@
----
-prev: false
-next: false
----
-
 # Rei Shiroto (白戸 レイ)
 
 ## 概要

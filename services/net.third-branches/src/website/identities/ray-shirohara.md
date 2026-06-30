@@ -1,8 +1,3 @@
----
-prev: false
-next: false
----
-
 # Ray Shirohara (城原 零)
 
 ## 概要

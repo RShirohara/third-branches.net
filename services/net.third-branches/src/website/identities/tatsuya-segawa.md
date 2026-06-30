@@ -1,8 +1,3 @@
----
-prev: false
-next: false
----
-
 # Tatsuya Segawa (瀬川 龍哉)
 
 ## 概要
