@@ -4,6 +4,11 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "第三支流",
   lang: "ja-JP",
+  outDir: "../../dist/website",
+  lastUpdated: true,
+  markdown: {
+    breaks: true,
+  },
   themeConfig: {
     socialLinks: [
       {
@@ -42,6 +47,4 @@ export default defineConfig({
       next: false,
     },
   },
-  outDir: "../../dist/website",
-  lastUpdated: true,
 });
