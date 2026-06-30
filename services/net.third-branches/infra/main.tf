@@ -207,7 +207,7 @@ resource "cloudflare_ruleset" "website_redirect" {
       action_parameters = {
         from_value = {
           target_url = {
-            value = "https://third-branches.net/$${1}"
+            expression = "concat(\"https://third-branches.net\", http.request.uri.path)"
           }
           preserve_query_string = true
           status_code           = 301
