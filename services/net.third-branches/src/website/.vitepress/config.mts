@@ -5,6 +5,12 @@ export default defineConfig({
   title: "第三支流",
   lang: "ja-JP",
   themeConfig: {
+    socialLinks: [
+      {
+        icon: "github",
+        link: "https://github.com/RShirohara/third-branches.net",
+      },
+    ],
     sidebar: [
       {
         text: "身分証明",
