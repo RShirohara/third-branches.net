@@ -27,6 +27,10 @@ export default defineConfig({
         ],
       },
     ],
+    docFooter: {
+      prev: false,
+      next: false,
+    },
   },
   outDir: "../../dist/website",
   lastUpdated: true,
