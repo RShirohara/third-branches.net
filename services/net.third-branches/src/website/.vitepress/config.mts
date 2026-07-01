@@ -36,8 +36,17 @@ export default defineConfig({
         collapsed: false,
         items: [
           {
-            text: "20260118T144027 一行艦娘",
-            link: "/blogs/20260118T144027_一行艦娘",
+            text: "2026",
+            items: [
+              {
+                text: "2026-07-01: トレセン音頭 絵文字比較",
+                link: "/blogs/20260701T212218",
+              },
+              {
+                text: "2026-01-18: 一行艦娘",
+                link: "/blogs/20260118T144027",
+              },
+            ],
           },
         ],
       },
