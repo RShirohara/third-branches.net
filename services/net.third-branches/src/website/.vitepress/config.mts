@@ -36,8 +36,13 @@ export default defineConfig({
         collapsed: false,
         items: [
           {
-            text: "20260118T144027 一行艦娘",
-            link: "/blogs/20260118T144027_一行艦娘",
+            text: "2026",
+            items: [
+              {
+                text: "2026-01-18: 一行艦娘",
+                link: "/blogs/20260118T144027_b9b1e8f7-090d-467b-9662-649b1f7d9a8a",
+              },
+            ],
           },
         ],
       },

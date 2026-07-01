@@ -16,6 +16,6 @@ import { data as blogs } from "./.vitepress/blogs.data.mts"
 
 <ul>
   <li v-for="blog of blogs">
-    <a :href="blog.link">{{ blog.text }}</a>
+    <a :href="blog.url">{{ blog.publishedDate }}: {{ blog.title }}</a>
   </li>
 </ul>
