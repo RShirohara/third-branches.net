@@ -40,11 +40,11 @@ export default defineConfig({
             items: [
               {
                 text: "2026-07-01: トレセン音頭 絵文字比較",
-                link: "/blogs/20260701T212218_6e39b597-aec7-48df-bbf3-543b789ba590",
+                link: "/blogs/20260701T212218",
               },
               {
                 text: "2026-01-18: 一行艦娘",
-                link: "/blogs/20260118T144027_b9b1e8f7-090d-467b-9662-649b1f7d9a8a",
+                link: "/blogs/20260118T144027",
               },
             ],
           },
